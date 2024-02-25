@@ -8,9 +8,8 @@ import 'settings_controller.dart';
 /// Widgets that listen to the SettingsController are rebuilt.
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key, required this.controller});
-
+  static const routeName = '/settings';
   final SettingsController controller;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

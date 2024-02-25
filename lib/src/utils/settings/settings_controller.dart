@@ -15,7 +15,7 @@ class SettingsController with ChangeNotifier {
 
   // Make ThemeMode a private variable so it is not updated directly without
   // also persisting the changes with the SettingsService.
-  late ThemeMode _themeMode;
+  late ThemeMode _themeMode = ThemeMode.system;
 
   // Allow Widgets to read the user's preferred ThemeMode.
   ThemeMode get themeMode => _themeMode;
@@ -25,7 +25,6 @@ class SettingsController with ChangeNotifier {
   /// settings from the service.
   Future<void> loadSettings() async {
     _themeMode = await _settingsService.themeMode();
-
     // Important! Inform listeners a change has occurred.
     notifyListeners();
   }

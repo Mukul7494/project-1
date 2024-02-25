@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:student_mgt/src/core/bottom_nav_bar.dart';
+import 'package:student_mgt/src/utils/settings/settings_controller.dart';
 import '../auth/ui/login_with_phone.dart';
 import '../auth/ui/phone_verification.dart';
 import '../auth/ui/signup_with_email.dart';
 import '../profile/user_profile.dart';
-import '../utils/settings/settings_screen.dart';
+import '../utils/settings/settings_service.dart';
+import '../utils/settings/settings_view.dart';
 import 'home_view.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+
+SettingsService settingsService = SettingsService();
+SettingsController settingsController = SettingsController(settingsService);
 
 // This is the router provider that will be used in the main.dart file
 // to pass the router to the MaterialApp.router
@@ -75,9 +80,10 @@ final goRouter = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-        path: '/settings',
-        name: 'settings',
-        builder: (context, state) => const SettingsScreen(),
+        path: SettingsView.routeName,
+        name: SettingsView.routeName,
+        builder: (context, state) =>
+            SettingsView(controller: settingsController),
       ),
 
       /*

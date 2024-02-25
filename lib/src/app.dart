@@ -102,6 +102,9 @@ class MyApp extends ConsumerWidget {
             // fontFamily: GoogleFonts.notoSans().fontFamily,
           ),
           themeMode: settingsController.themeMode,
+
+          // routerDelegate: router.routerDelegate,
+          // routeInformationParser: router.routeInformationParser,
         );
       },
     );
