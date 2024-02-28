@@ -47,6 +47,7 @@ class FirebaseAuthServices {
   void signOut(BuildContext context) {
     try {
       _auth.signOut();
+      FirebaseAuth.instance.signOut();
       context.go('/loginPage');
       Logger().i("Sign Out");
     } on FirebaseAuthException catch (e) {

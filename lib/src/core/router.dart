@@ -1,44 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:student_mgt/src/core/bottom_nav_bar.dart';
+import 'package:student_mgt/src/core/choice_login.dart';
+import 'package:student_mgt/src/core/splash_view.dart';
 import 'package:student_mgt/src/utils/settings/settings_controller.dart';
+import '../auth/student_auth_gate.dart';
 import '../auth/ui/login_with_phone.dart';
 import '../auth/ui/phone_verification.dart';
-import '../auth/ui/signup_with_email.dart';
+import '../auth/user.dart';
 import '../profile/user_profile.dart';
 import '../utils/settings/settings_service.dart';
 import '../utils/settings/settings_view.dart';
 import 'home_view.dart';
 
+part 'router.g.dart';
+
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
+final _adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin');
+final _studentNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'student');
+final _teacherNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel:'home');
 final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+
+
 
 SettingsService settingsService = SettingsService();
 SettingsController settingsController = SettingsController(settingsService);
 
 // This is the router provider that will be used in the main.dart file
 // to pass the router to the MaterialApp.router
-final goRouter = Provider<GoRouter>((ref) {
-  // final FirebaseAuthServices auth = FirebaseAuthServices();
-  // final user = auth.getUser();
+@riverpod
+GoRouter Router(RouterRef ref) {
+  final userStream = ref.watch(userStreamProvider);
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     //* temporary solution for checking if user is logged in or not and where to send him
-    initialLocation: '/login',
+    initialLocation: SplashView.path,
+    /// Forwards diagnostic messages to the dart:developer log() API.
     debugLogDiagnostics: true,
+    redirect: (context, state) async {
+
+    },
     routes: [
       GoRoute(
-        path: '/login',
-        name: 'login',
+        path: SplashView.path,
+        name: SplashView.path,
         pageBuilder: (context, state) => const NoTransitionPage(
-          child: LoginPage(),
+          child: SplashView(),
         ),
       ),
+
+      ///--------------------------------------------Auth---------------------------------------------------------///
+
       GoRoute(
-          path: '/phoneloginPage',
-          builder: (context, state) => const PhoneLoginPage()),
+        path: LoginChoicePage.path,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: LoginChoicePage(),
+        ),
+        name: LoginChoicePage.path,
+      ),
+      // GoRoute(
+      //   path: '/${AppRoute.adminLogin.name}',
+      //   name: AppRoute.adminLogin.name,
+      //   builder: (context, state) {
+      //     return const AdminAuthGate();
+      //   },
+      // ),
+      // GoRoute(
+      //   path: '/${AppRoute.teacherLogin.name}',
+      //   name: AppRoute.teacherLogin.name,
+      //   builder: (context, state) {
+      //     return const TeacherAuthGate();
+      //   },
+      // ),
+      GoRoute(
+        path: StudentAuthGate.path,
+        builder: (context, state) {
+          return const StudentAuthGate();
+        },
+        name: StudentAuthGate.path,
+      ),
+      GoRoute(
+        path: '/phoneloginPage',
+        builder: (context, state) => const PhoneLoginPage(),
+      ),
       GoRoute(
         path: '/phoneVerificationPage',
         builder: (context, state) => PhoneVerificationPage(
@@ -46,6 +93,9 @@ final goRouter = Provider<GoRouter>((ref) {
               state.uri.queryParameters['phoneVerificationId']!,
         ),
       ),
+
+      ///------------------------------------------BottomNavBar---------------------------------------------------///
+
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MyAppNavigationBottomBar(
@@ -57,11 +107,11 @@ final goRouter = Provider<GoRouter>((ref) {
             navigatorKey: _homeNavigatorKey,
             routes: [
               GoRoute(
-                path: '/home',
-                name: 'home',
+                path: HomeView.path,
                 pageBuilder: (context, state) => const NoTransitionPage(
-                  child: HomeScreen(),
+                  child: HomeView(),
                 ),
+               name: HomeView.path,
               ),
             ],
           ),
@@ -71,7 +121,7 @@ final goRouter = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/profile',
                 name: 'profile',
-                pageBuilder: (context, state) => NoTransitionPage(
+                pageBuilder: (context, state) => const NoTransitionPage(
                   child: UserProfile(),
                 ),
               ),
@@ -79,9 +129,12 @@ final goRouter = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+
+      ///-----------------------------------Misc..--------------------------------------------------------///
+
       GoRoute(
-        path: SettingsView.routeName,
-        name: SettingsView.routeName,
+        path: SettingsView.path,
+        name: SettingsView.path,
         builder: (context, state) =>
             SettingsView(controller: settingsController),
       ),
@@ -105,10 +158,14 @@ final goRouter = Provider<GoRouter>((ref) {
         builder: (context, State) => TeacherScreen(),
       ),
       */
+
     ],
+
+
+
     //*if page not found then it will show the page not found from here.
     errorBuilder: (context, state) => const Center(
       child: Scaffold(body: Text("Page Not Found")),
     ),
   );
-});
+}

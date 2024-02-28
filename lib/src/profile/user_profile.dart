@@ -1,37 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utils/widgets/drawer_widget.dart';
+class UserProfile extends ConsumerWidget {
+  const UserProfile({super.key});
 
-class UserProfile extends StatelessWidget {
-  UserProfile({super.key});
+  static const path = '/User_Profile';
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Profile'),
+      // appBar: AppBar(),
+      body: ProfileScreen(
+        appBar: AppBar(
+          title: const Text('User Profile'),
+        ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () =>
-                context.push('/settings'), // Navigate to settings page
-          ),
-        ],
-      ),
-      drawer: const DrawerWidget(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Center(
-            child: Text("Profile Screen"),
-          ),
-          TextButton(
-            onPressed: () => _auth.signOut(),
-            child: (const Text("Logout")),
-          ),
+          SignedOutAction((context) {
+            Navigator.of(context).pop();
+          })
         ],
       ),
     );
