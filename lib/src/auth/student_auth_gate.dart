@@ -8,7 +8,7 @@ import 'package:student_mgt/src/core/home_view.dart';
 
 class StudentAuthGate extends ConsumerWidget {
   const StudentAuthGate({super.key});
-  static const path = '/std_sign-in';
+  static const path = '/student_sign-in';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

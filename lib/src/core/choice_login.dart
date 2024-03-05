@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:student_mgt/src/auth/student_auth_gate.dart';
 
+import '../auth/admin_auth_state.dart';
+import '../auth/teacher_auth_gate.dart';
+
 class LoginChoicePage extends StatelessWidget {
   const LoginChoicePage({super.key});
   static const path = '/login_choice';
@@ -18,6 +21,7 @@ class LoginChoicePage extends StatelessWidget {
           const SizedBox(height: 40),
           ElevatedButton(
             onPressed: () {
+              context.go(AdminAuthGate.path);
               // context.goNamed(AppRoute.adminLogin.name);
             },
             child: const Text('Admin Login'),
@@ -25,6 +29,7 @@ class LoginChoicePage extends StatelessWidget {
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
+              context.go(TeacherAuthGate.path);
               // context.goNamed(AppRoute.teacherLogin.name);
             },
             child: const Text('Teacher Login'),
@@ -32,7 +37,7 @@ class LoginChoicePage extends StatelessWidget {
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
-              context.goNamed(StudentAuthGate.path);
+              context.go(StudentAuthGate.path);
             },
             child: const Text('Student Login'),
           ),

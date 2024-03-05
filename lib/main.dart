@@ -29,9 +29,7 @@ Future<void> main() async {
     // GoogleProvider(
     //     clientId:
     //     "YOURCLIENTID"),
-  ]
-
-  );
+  ]);
   runApp(
     ProviderScope(
       child: MyApp(settingsController: settingsController),
