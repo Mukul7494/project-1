@@ -6,7 +6,9 @@ import 'package:student_mgt/src/core/bottom_nav_bar.dart';
 import 'package:student_mgt/src/core/choice_login.dart';
 import 'package:student_mgt/src/core/splash_view.dart';
 import 'package:student_mgt/src/utils/settings/settings_controller.dart';
+import '../auth/admin_auth_state.dart';
 import '../auth/student_auth_gate.dart';
+import '../auth/teacher_auth_gate.dart';
 import '../auth/ui/login_with_phone.dart';
 import '../auth/ui/phone_verification.dart';
 import '../auth/user.dart';
@@ -21,10 +23,8 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin');
 final _studentNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'student');
 final _teacherNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
-final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel:'home');
+final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
-
-
 
 SettingsService settingsService = SettingsService();
 SettingsController settingsController = SettingsController(settingsService);
@@ -38,11 +38,10 @@ GoRouter Router(RouterRef ref) {
     navigatorKey: _rootNavigatorKey,
     //* temporary solution for checking if user is logged in or not and where to send him
     initialLocation: SplashView.path,
+
     /// Forwards diagnostic messages to the dart:developer log() API.
     debugLogDiagnostics: true,
-    redirect: (context, state) async {
-
-    },
+    redirect: (context, state) async {},
     routes: [
       GoRoute(
         path: SplashView.path,
@@ -61,20 +60,20 @@ GoRouter Router(RouterRef ref) {
         ),
         name: LoginChoicePage.path,
       ),
-      // GoRoute(
-      //   path: '/${AppRoute.adminLogin.name}',
-      //   name: AppRoute.adminLogin.name,
-      //   builder: (context, state) {
-      //     return const AdminAuthGate();
-      //   },
-      // ),
-      // GoRoute(
-      //   path: '/${AppRoute.teacherLogin.name}',
-      //   name: AppRoute.teacherLogin.name,
-      //   builder: (context, state) {
-      //     return const TeacherAuthGate();
-      //   },
-      // ),
+      GoRoute(
+        path: AdminAuthGate.path,
+        name: AdminAuthGate.path,
+        builder: (context, state) {
+          return const AdminAuthGate();
+        },
+      ),
+      GoRoute(
+        path: TeacherAuthGate.path,
+        name: TeacherAuthGate.path,
+        builder: (context, state) {
+          return const TeacherAuthGate();
+        },
+      ),
       GoRoute(
         path: StudentAuthGate.path,
         builder: (context, state) {
@@ -111,7 +110,7 @@ GoRouter Router(RouterRef ref) {
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: HomeView(),
                 ),
-               name: HomeView.path,
+                name: HomeView.path,
               ),
             ],
           ),
@@ -158,10 +157,7 @@ GoRouter Router(RouterRef ref) {
         builder: (context, State) => TeacherScreen(),
       ),
       */
-
     ],
-
-
 
     //*if page not found then it will show the page not found from here.
     errorBuilder: (context, state) => const Center(

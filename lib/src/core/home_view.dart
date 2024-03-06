@@ -1,11 +1,10 @@
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/widgets/drawer_widget.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
-static const path = '/';
+  static const path = '/';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

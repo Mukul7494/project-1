@@ -6,6 +6,7 @@ import '../admin/admin_view.dart';
 
 class AdminAuthGate extends StatelessWidget {
   const AdminAuthGate({super.key});
+  static const path = '/admin_sign-in';
 
   @override
   Widget build(BuildContext context) {
