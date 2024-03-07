@@ -11,7 +11,7 @@ String _$routerHash() => r'91903749eb9e47499e7a7397a7c72449b6c51223';
 /// See also [Router].
 @ProviderFor(Router)
 final routerProvider = AutoDisposeProvider<GoRouter>.internal(
-  Router,
+  router,
   name: r'routerProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
