@@ -22,7 +22,7 @@ SettingsController settingsController = SettingsController(settingsService);
 // This is the router provider that will be used in the main.dart file
 // to pass the router to the MaterialApp.router
 @riverpod
-GoRouter Router(RouterRef ref) {
+GoRouter router(RouterRef ref) {
   // final userRole = ref.watch(userRoleProvider);
 
   final rootNavigatorKey = GlobalKey<NavigatorState>();
