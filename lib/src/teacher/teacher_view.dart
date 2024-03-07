@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import '../widgets/drawer_widget.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class TeacherView extends StatelessWidget {
+  const TeacherView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Student App')),
+      appBar: AppBar(
+        title: const Text('Teacher App'),
+      ),
       drawer: const DrawerWidget(),
       body: Center(
         child: Column(

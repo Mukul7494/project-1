@@ -1,15 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:go_router/go_router.dart';
-import 'package:student_mgt/src/student/home_view.dart';
+import 'package:student_mgt/src/constants/routes.dart';
 
 class StudentAuthGate extends ConsumerWidget {
   const StudentAuthGate({super.key});
 
-  static const path = '/std_sign-in';
+  static const path = '/student_sign-in';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +17,7 @@ class StudentAuthGate extends ConsumerWidget {
       actions: [
         AuthStateChangeAction<SignedIn>((context, state) {
           debugPrint("SignedIn");
-          context.go(HomeView.path);
+          context.go(studentRoute);
         }),
       ],
       headerBuilder: (context, constraints, shrinkOffset) {

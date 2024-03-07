@@ -5,6 +5,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 
 class TeacherAuthGate extends StatelessWidget {
   const TeacherAuthGate({super.key});
+  static const path = '/teacher_sign-in';
 
   @override
   Widget build(BuildContext context) {

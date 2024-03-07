@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'src/app.dart';
 import 'firebase_options.dart';
-import 'src/utils/settings/settings_controller.dart';
-import 'src/utils/settings/settings_service.dart';
+import 'src/shared/settings/settings_controller.dart';
+import 'src/shared/settings/settings_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

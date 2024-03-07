@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:student_mgt/src/auth/views/student_auth_gate.dart';
+import 'package:student_mgt/src/constants/routes.dart';
 import 'package:student_mgt/src/student/bottom_nav_bar.dart';
-import 'package:student_mgt/src/core/choice_login.dart';
+import 'package:student_mgt/src/auth/views/choice_login.dart';
 import 'package:student_mgt/src/core/splash_view.dart';
-import 'package:student_mgt/src/utils/settings/settings_controller.dart';
-import '../auth/student_auth_gate.dart';
-import '../auth/ui/login_with_phone.dart';
-import '../auth/ui/phone_verification.dart';
+import '../auth/views/admin_auth_gate.dart';
+import '../auth/views/teacher_auth_gate.dart';
 import '../profile/user_profile.dart';
-import '../utils/404.dart';
-import '../utils/settings/settings_service.dart';
-import '../utils/settings/settings_view.dart';
+import '../shared/settings/settings_controller.dart';
+import '../shared/settings/settings_service.dart';
+import '../shared/settings/settings_view.dart';
 import '../student/home_view.dart';
+
 part 'router.g.dart';
 
 SettingsService settingsService = SettingsService();
@@ -25,27 +25,25 @@ SettingsController settingsController = SettingsController(settingsService);
 GoRouter Router(RouterRef ref) {
   // final userRole = ref.watch(userRoleProvider);
 
-  final _rootNavigatorKey = GlobalKey<NavigatorState>();
-  final _adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin');
-  final _studentNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'student');
-  final _teacherNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
-  final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
-  final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+  final rootNavigatorKey = GlobalKey<NavigatorState>();
+  final adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin');
+  final studentNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'student');
+  final teacherNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+  final homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
+  final profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
 
   return GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     //* temporary solution for checking if user is logged in or not and where to send him
-    initialLocation: SplashView.path,
+    initialLocation: loginChoiceRoute,
 
     /// Forwards diagnostic messages to the dart:developer log() API.
     debugLogDiagnostics: true,
-    redirect: (context, state) async {
-      // TODO: Logic here
-    },
+    // redirect: (context, state) async {},
     routes: [
       GoRoute(
-        path: SplashView.path,
-        name: SplashView.path,
+        path: splashRoute,
+        name: splashRoute,
         pageBuilder: (context, state) => const NoTransitionPage(
           child: SplashView(),
         ),
@@ -54,45 +52,34 @@ GoRouter Router(RouterRef ref) {
       ///--------------------------------------------Auth---------------------------------------------------------///
 
       GoRoute(
-        path: LoginChoicePage.path,
+        path: loginChoiceRoute,
         pageBuilder: (context, state) => const NoTransitionPage(
           child: LoginChoicePage(),
         ),
-        name: LoginChoicePage.path,
+        name: loginChoiceRoute,
       ),
-      // GoRoute(
-      //   path: '/${AppRoute.adminLogin.name}',
-      //   name: AppRoute.adminLogin.name,
-      //   builder: (context, state) {
-      //     return const AdminAuthGate();
-      //   },
-      // ),
-      // GoRoute(
-      //   path: '/${AppRoute.teacherLogin.name}',
-      //   name: AppRoute.teacherLogin.name,
-      //   builder: (context, state) {
-      //     return const TeacherAuthGate();
-      //   },
-      // ),
-      // Define routes based on user role
 
+      /// Define routes based on user role
       GoRoute(
-        path: StudentAuthGate.path,
+        path: adminAuthRoute,
+        builder: (context, state) {
+          return const AdminAuthGate();
+        },
+        name: adminAuthRoute,
+      ),
+      GoRoute(
+        path: teacherAuthRoute,
+        builder: (context, state) {
+          return const TeacherAuthGate();
+        },
+        name: teacherAuthRoute,
+      ),
+      GoRoute(
+        path: studentAuthRoute,
         builder: (context, state) {
           return const StudentAuthGate();
         },
-        name: StudentAuthGate.path,
-      ),
-      GoRoute(
-        path: '/phoneloginPage',
-        builder: (context, state) => const PhoneLoginPage(),
-      ),
-      GoRoute(
-        path: '/phoneVerificationPage',
-        builder: (context, state) => PhoneVerificationPage(
-          phoneVerificationId:
-              state.uri.queryParameters['phoneVerificationId']!,
-        ),
+        name: studentAuthRoute,
       ),
 
       ///------------------------------------------BottomNavBar---------------------------------------------------///
@@ -105,26 +92,26 @@ GoRouter Router(RouterRef ref) {
         },
         branches: [
           StatefulShellBranch(
-            navigatorKey: _homeNavigatorKey,
+            navigatorKey: homeNavigatorKey,
             routes: [
               GoRoute(
-                path: HomeView.path,
+                path: studentRoute,
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: HomeView(),
                 ),
-                name: HomeView.path,
+                name: studentRoute,
               ),
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: _profileNavigatorKey,
+            navigatorKey: profileNavigatorKey,
             routes: [
               GoRoute(
-                path: '/profile',
-                name: 'profile',
+                path: userProfileRoute,
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: UserProfile(),
                 ),
+                name: userProfileRoute,
               ),
             ],
           ),
@@ -139,31 +126,6 @@ GoRouter Router(RouterRef ref) {
         builder: (context, state) =>
             SettingsView(controller: settingsController),
       ),
-
-      /*
-      GoRoute(
-        path: '/admin',
-        name: 'admin',
-        // Use a guard or middleware to ensure authorization
-        //TODO: ADD Guard
-        builder: (context, State) => AdminScreen(),
-      ),
-      GoRoute(
-        path: '/student',
-        name: 'student',
-        builder: (context, state) => StudentScreen(),
-      ),
-      GoRoute(
-        path: '/teacher',
-        name: 'teacher',
-        builder: (context, State) => TeacherScreen(),
-      ),
-      */
-      // Add a catch-all route for 404 errors
-      // GoRoute(
-      //   path: '*',
-      //   builder: (context, state) => const NotFoundScreen(),
-      // ),
     ],
 
     //*if page not found then it will show the page not found from here.

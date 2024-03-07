@@ -1,17 +1,35 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AdminView extends StatelessWidget {
-  const AdminView({super.key});
+import '../widgets/Drawer_navigation_rail.dart';
+
+class AdminHomePage extends StatelessWidget {
+  const AdminHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(title: const Text('Admin Pannel')),
+      drawer: const DrawerNavRail(),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Text("Admin Page"),
-          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Welcome Admin,",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                Text(
+                  "Explore the new features & Enjoy",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

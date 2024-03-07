@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:student_mgt/src/auth/student_auth_gate.dart';
+import 'package:student_mgt/src/constants/routes.dart';
 
 class LoginChoicePage extends StatelessWidget {
   const LoginChoicePage({super.key});
-  static const path = '/login_choice';
 
   @override
   Widget build(BuildContext context) {
@@ -12,29 +11,32 @@ class LoginChoicePage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Center(
-            child: Text("Choose Your Login Type"),
+          Center(
+            child: Text(
+              "What Descibe You Best",
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
           ),
           const SizedBox(height: 40),
           ElevatedButton(
             onPressed: () {
-              // context.goNamed(AppRoute.adminLogin.name);
+              context.push(adminAuthRoute);
             },
-            child: const Text('Admin Login'),
+            child: const Text('Admin'),
           ),
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
-              // context.goNamed(AppRoute.teacherLogin.name);
+              context.push(teacherAuthRoute);
             },
-            child: const Text('Teacher Login'),
+            child: const Text('Teacher'),
           ),
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
-              context.goNamed(StudentAuthGate.path);
+              context.push(studentAuthRoute);
             },
-            child: const Text('Student Login'),
+            child: const Text('Student'),
           ),
         ],
       ),

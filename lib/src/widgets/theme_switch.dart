@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../settings/settings_controller.dart';
+import '../shared/settings/settings_controller.dart';
 
 class ThemeSwitch extends StatelessWidget {
   const ThemeSwitch({super.key, required this.controller});

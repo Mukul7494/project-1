@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:student_mgt/src/core/choice_login.dart';
+import 'package:student_mgt/src/constants/routes.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
-static const path = '/splash';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +16,7 @@ static const path = '/splash';
           ),
           ElevatedButton(
             onPressed: () {
-              context.goNamed(LoginChoicePage.path);
+              context.namedLocation(loginChoiceRoute);
             },
             child: const Text('Go To Login'),
           ),

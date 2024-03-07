@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/router.dart';
-import 'utils/settings/settings_controller.dart';
+import 'shared/settings/settings_controller.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 /// The Widget that configures your application.
