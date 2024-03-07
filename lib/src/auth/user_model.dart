@@ -1,22 +1,29 @@
-class UserProfile {
-  String email;
-  String firstName;
-  String? lastName;
-  int userRole;
-
-  UserProfile({
+class User {
+  User({
+    required this.uid,
     required this.email,
-    required this.firstName,
-    this.lastName,
-    required this.userRole,
+    this.fullName,
+    required this.role,
   });
 
-  factory UserProfile.fromJson(Map<String, dynamic> userJson) {
-    return UserProfile(
-      email: userJson["email"],
-      firstName: userJson["first_name"],
-      lastName: userJson["last_name"],
-      userRole: userJson["role"],
-    );
+  User.fromJson(Map<String, Object?> json)
+      : this(
+          uid: json['uid']! as String,
+          email: json['email']! as String,
+          fullName: json['name']! as String,
+          role: json['role']! as String,
+        );
+
+  final String uid;
+  final String email;
+  final String? fullName;
+  final String role;
+
+  Map<String, Object?> toJson() {
+    return {
+      'uid': uid,
+      'email': email,
+      'role': role,
+    };
   }
 }

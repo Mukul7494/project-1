@@ -2,29 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:student_mgt/src/core/bottom_nav_bar.dart';
+import 'package:student_mgt/src/student/bottom_nav_bar.dart';
 import 'package:student_mgt/src/core/choice_login.dart';
 import 'package:student_mgt/src/core/splash_view.dart';
 import 'package:student_mgt/src/utils/settings/settings_controller.dart';
 import '../auth/student_auth_gate.dart';
 import '../auth/ui/login_with_phone.dart';
 import '../auth/ui/phone_verification.dart';
-import '../auth/user.dart';
 import '../profile/user_profile.dart';
+import '../utils/404.dart';
 import '../utils/settings/settings_service.dart';
 import '../utils/settings/settings_view.dart';
-import 'home_view.dart';
-
+import '../student/home_view.dart';
 part 'router.g.dart';
-
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin');
-final _studentNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'student');
-final _teacherNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
-final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel:'home');
-final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
-
-
 
 SettingsService settingsService = SettingsService();
 SettingsController settingsController = SettingsController(settingsService);
@@ -33,15 +23,24 @@ SettingsController settingsController = SettingsController(settingsService);
 // to pass the router to the MaterialApp.router
 @riverpod
 GoRouter Router(RouterRef ref) {
-  final userStream = ref.watch(userStreamProvider);
+  // final userRole = ref.watch(userRoleProvider);
+
+  final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  final _adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin');
+  final _studentNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'student');
+  final _teacherNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+  final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
+  final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     //* temporary solution for checking if user is logged in or not and where to send him
     initialLocation: SplashView.path,
+
     /// Forwards diagnostic messages to the dart:developer log() API.
     debugLogDiagnostics: true,
     redirect: (context, state) async {
-
+      // TODO: Logic here
     },
     routes: [
       GoRoute(
@@ -75,6 +74,8 @@ GoRouter Router(RouterRef ref) {
       //     return const TeacherAuthGate();
       //   },
       // ),
+      // Define routes based on user role
+
       GoRoute(
         path: StudentAuthGate.path,
         builder: (context, state) {
@@ -111,7 +112,7 @@ GoRouter Router(RouterRef ref) {
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: HomeView(),
                 ),
-               name: HomeView.path,
+                name: HomeView.path,
               ),
             ],
           ),
@@ -158,14 +159,26 @@ GoRouter Router(RouterRef ref) {
         builder: (context, State) => TeacherScreen(),
       ),
       */
-
+      // Add a catch-all route for 404 errors
+      // GoRoute(
+      //   path: '*',
+      //   builder: (context, state) => const NotFoundScreen(),
+      // ),
     ],
-
-
 
     //*if page not found then it will show the page not found from here.
     errorBuilder: (context, state) => const Center(
       child: Scaffold(body: Text("Page Not Found")),
     ),
   );
+}
+
+enum UserRole {
+  student,
+  teacher,
+  admin,
+  unauthenticated,
+  loading,
+  error,
+  unknown,
 }

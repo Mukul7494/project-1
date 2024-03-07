@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:go_router/go_router.dart';
-import 'package:student_mgt/src/core/home_view.dart';
+import 'package:student_mgt/src/student/home_view.dart';
 
 class StudentAuthGate extends ConsumerWidget {
   const StudentAuthGate({super.key});
+
   static const path = '/std_sign-in';
 
   @override
