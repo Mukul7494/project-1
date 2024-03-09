@@ -6,6 +6,8 @@ import 'package:student_mgt/src/constants/routes.dart';
 import 'package:student_mgt/src/student/bottom_nav_bar.dart';
 import 'package:student_mgt/src/auth/views/choice_login.dart';
 import 'package:student_mgt/src/core/splash_view.dart';
+import 'package:student_mgt/student/ui/create_student_form.dart';
+import 'package:student_mgt/student/ui/student_list_page.dart';
 import '../auth/views/admin_auth_gate.dart';
 import '../auth/views/teacher_auth_gate.dart';
 import '../profile/user_profile.dart';
@@ -26,9 +28,9 @@ GoRouter router(RouterRef ref) {
   // final userRole = ref.watch(userRoleProvider);
 
   final rootNavigatorKey = GlobalKey<NavigatorState>();
-  final adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin');
-  final studentNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'student');
-  final teacherNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+  // final adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin');
+  // final studentNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'student');
+  // final teacherNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
   final homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
   final profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
 
@@ -119,6 +121,17 @@ GoRouter router(RouterRef ref) {
       ),
 
       ///-----------------------------------Misc..--------------------------------------------------------///
+
+      GoRoute(
+        path: '/createStudentFormPage',
+        name: 'createStudentFormPage',
+        builder: (context, state) => const CreateStudentFormPage(),
+      ),
+      GoRoute(
+        path: '/studentListPage',
+        name: 'studentListPage',
+        builder: (context, state) => const StudentListPage(),
+      ),
 
       GoRoute(
         path: SettingsView.path,

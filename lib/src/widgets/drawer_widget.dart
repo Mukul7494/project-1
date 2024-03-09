@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -19,6 +20,16 @@ class DrawerWidget extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
+                  ListTile(
+                    leading: const Icon(Icons.person_add),
+                    title: const Text("Add Student"),
+                    onTap: () => context.push("/createStudentFormPage"),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.person),
+                    title: const Text("Students List"),
+                    onTap: () => context.push("/studentListPage"),
+                  ),
                   ListTile(
                     leading: const Icon(Icons.apartment),
                     title: const Text("Book to Stay"),

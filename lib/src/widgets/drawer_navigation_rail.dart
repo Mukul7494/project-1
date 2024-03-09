@@ -12,13 +12,13 @@ class DrawerNavRail extends StatefulWidget {
 
 class _DrawerNavRailState extends State<DrawerNavRail> {
   var list = [
-    AdminHomePage(),
-    AdminHomePage(),
-    AdminHomePage(),
-    AdminHomePage(),
-    AdminHomePage(),
-    AdminHomePage(),
-    AdminHomePage(),
+    const AdminHomePage(),
+    const AdminHomePage(),
+    const AdminHomePage(),
+    const AdminHomePage(),
+    const AdminHomePage(),
+    const AdminHomePage(),
+    const AdminHomePage(),
   ];
 
   int _selectedIndex = 0;
@@ -35,7 +35,7 @@ class _DrawerNavRailState extends State<DrawerNavRail> {
             SafeArea(
               child: IntrinsicWidth(
                 child: NavigationRail(
-                  backgroundColor: Color.fromARGB(255, 12, 3, 20),
+                  backgroundColor: const Color.fromARGB(255, 12, 3, 20),
                   minExtendedWidth: 160,
                   elevation: 6,
                   selectedIndex: _selectedIndex,
@@ -80,14 +80,14 @@ class _DrawerNavRailState extends State<DrawerNavRail> {
           ),
         ),
         label: Container(
-          padding: EdgeInsets.only(left: 10),
-          child: Text(
+          padding: const EdgeInsets.only(left: 10),
+          child: const Text(
             '',
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         ),
       ),
-      NavigationRailDestination(
+      const NavigationRailDestination(
         icon: Icon(
           Icons.home,
           color: Colors.white,
@@ -97,7 +97,7 @@ class _DrawerNavRailState extends State<DrawerNavRail> {
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
-      NavigationRailDestination(
+      const NavigationRailDestination(
         icon: Icon(
           Icons.person,
           color: Colors.white,
@@ -107,7 +107,7 @@ class _DrawerNavRailState extends State<DrawerNavRail> {
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
-      NavigationRailDestination(
+      const NavigationRailDestination(
         icon: Icon(
           Icons.person_4,
           color: Colors.white,
@@ -117,7 +117,7 @@ class _DrawerNavRailState extends State<DrawerNavRail> {
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
-      NavigationRailDestination(
+      const NavigationRailDestination(
         icon: Icon(
           Icons.person_2,
           color: Colors.white,
@@ -127,7 +127,7 @@ class _DrawerNavRailState extends State<DrawerNavRail> {
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
-      NavigationRailDestination(
+      const NavigationRailDestination(
         icon: Icon(
           Icons.home,
           color: Colors.white,
@@ -137,7 +137,7 @@ class _DrawerNavRailState extends State<DrawerNavRail> {
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
-      NavigationRailDestination(
+      const NavigationRailDestination(
         icon: Icon(
           Icons.logout,
           color: Colors.white,

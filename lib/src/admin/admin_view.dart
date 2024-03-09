@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/Drawer_navigation_rail.dart';
+import 'package:student_mgt/src/widgets/drawer_navigation_rail.dart';
 
 class AdminHomePage extends StatelessWidget {
   const AdminHomePage({super.key});
