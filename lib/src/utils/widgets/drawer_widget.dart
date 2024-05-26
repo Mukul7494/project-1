@@ -14,7 +14,7 @@ class TeacherDrawerWidget extends StatelessWidget {
           children: [
             Container(
               height: 130,
-              color: Color.fromARGB(138, 227, 212, 109),
+              color: const Color.fromARGB(138, 227, 212, 109),
               child: const Padding(
                 padding: EdgeInsets.all(30),
                 child: Row(
@@ -27,7 +27,7 @@ class TeacherDrawerWidget extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Er. Amit Kumar', style: TextStyle(fontSize: 16)),
+                        Text('Dr.Mohit', style: TextStyle(fontSize: 16)),
                         Text('amit@ace.edu', style: TextStyle(fontSize: 14)),
                         Text('B.Tech/CSE/A1', style: TextStyle(fontSize: 14)),
                       ],
@@ -156,7 +156,7 @@ class StudentDrawerWidget extends StatelessWidget {
           children: [
             Container(
               height: 130,
-              color: Color.fromARGB(206, 116, 161, 240),
+              color: const Color.fromARGB(206, 116, 161, 240),
               child: const Padding(
                 padding: EdgeInsets.all(30),
                 child: Row(

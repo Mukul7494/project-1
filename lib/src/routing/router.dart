@@ -8,6 +8,8 @@ import 'package:vidhyatri/src/features/courses/ui/courses_view.dart';
 import 'package:vidhyatri/src/features/courses/ui/create_courses.dart';
 import 'package:vidhyatri/src/shared/theme/controllers/theme_controller.dart';
 import 'package:vidhyatri/src/teacher/teacher_home_view.dart';
+import 'package:vidhyatri/src/utils/pdf%20/pdf_getter.dart';
+import 'package:vidhyatri/src/utils/pdf%20/pdf_picker.dart';
 import '../features/attendance/attendace_view.dart';
 import '../features/attendance/take_attendance.dart';
 import '../features/auth/views/admin_auth_gate.dart';
@@ -57,7 +59,7 @@ GoRouter router(RouterRef ref) {
     routes: [
       GoRoute(
         path: onboardingRoute,
-        builder: (context, state) => const OnBoardingScreen(),
+        builder: (context, state) => const PdfDownloader(),
         // builder: (context, state) => StdHomeViewO(),
         name: onboardingRoute,
       ),

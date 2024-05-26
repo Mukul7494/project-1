@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:vidhyatri/src/shared/boxes/hive_boxes.dart';
 
 import '../../student/model/student_model.dart';
 import '../courses/model/course_model.dart';
@@ -21,6 +22,7 @@ class _AttendanceTakingScreenState extends State<AttendanceTakingScreen> {
   DateTime selectedDate = DateTime.now();
   String? selectedCourse;
   Map<String, bool> attendanceMap = {};
+  Box box = studentBox;
 
   @override
   void initState() {
@@ -51,7 +53,7 @@ class _AttendanceTakingScreenState extends State<AttendanceTakingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Take Attendance'),
+        title: const Text('Take Attendance'),
       ),
       body: Column(
         children: [
@@ -78,7 +80,7 @@ class _AttendanceTakingScreenState extends State<AttendanceTakingScreen> {
             children: [
               Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
               IconButton(
-                icon: Icon(Icons.calendar_today),
+                icon: const Icon(Icons.calendar_today),
                 onPressed: () async {
                   final DateTime? picked = await showDatePicker(
                     context: context,
@@ -86,10 +88,11 @@ class _AttendanceTakingScreenState extends State<AttendanceTakingScreen> {
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2101),
                   );
-                  if (picked != null && picked != selectedDate)
+                  if (picked != null && picked != selectedDate) {
                     setState(() {
                       selectedDate = picked;
                     });
+                  }
                 },
               ),
             ],
@@ -98,42 +101,72 @@ class _AttendanceTakingScreenState extends State<AttendanceTakingScreen> {
           // Student List
           Expanded(
             child: ListView.builder(
-              itemCount: attendanceMap.length,
+              itemCount: box.length,
               itemBuilder: (context, index) {
-                final studentKey = attendanceMap.keys.elementAt(index);
-                final student = _studentsBox.get(studentKey)!;
-                return ListTile(
-                  title: Text(student.name),
-                  leading: Checkbox(
-                    value: attendanceMap[studentKey],
-                    onChanged: (value) {
-                      setState(() {
-                        attendanceMap[studentKey] = value!;
-                      });
-                    },
+                final StudentModel student = box.getAt(index);
+                return Card(
+                  child: ListTile(
+                    title: Text(student.name),
+                    subtitle: Text(student.roll.toString()),
+                    trailing: IconButton(
+                      icon: attendanceMap.containsKey(student.key.toString())
+                          ? const Icon(Icons.remove_circle)
+                          : const Icon(Icons.add_circle),
+                      onPressed: () {
+                        setState(() {
+                          attendanceMap.containsKey(student.key.toString())
+                              ? attendanceMap.remove(student.key.toString())
+                              : attendanceMap.addEntries([
+                                  MapEntry(student.key.toString(), true),
+                                ]);
+
+                          setState(() {});
+                          // attendanceMap[student.key.toString()] =
+                          //     !attendanceMap[student.key.toString()]!;
+                        });
+                      },
+                    ),
                   ),
                 );
+
+                // final studentKey = attendanceMap.keys.elementAt(index);
+                // final student = _studentsBox.get(studentKey)!;
+                // return ListTile(
+                //   title: Text(student.name),
+                //   leading: Checkbox(
+                //     value: attendanceMap[studentKey],
+                //     onChanged: (value) {
+                //       setState(() {
+                //         attendanceMap[studentKey] = value!;
+                //       });
+                //     },
+                //   ),
+                // );
               },
             ),
           ),
 
           // Save Button
-          ElevatedButton(
-            onPressed: () {
-              final attendance = AttendanceModel(
-                course: selectedCourse!,
-                date: selectedDate,
-                presentStudentKeys: attendanceMap.entries
-                    .where((entry) => entry.value == true)
-                    .map((entry) => entry.key)
-                    .toList(),
-              );
-              _attendanceBox.add(attendance);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Attendance saved successfully!')),
-              );
-            },
-            child: Text('Save Attendance'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                final attendance = AttendanceModel(
+                  course: selectedCourse!,
+                  date: selectedDate,
+                  presentStudentKeys: attendanceMap.entries
+                      .where((entry) => entry.value == true)
+                      .map((entry) => entry.key)
+                      .toList(),
+                );
+                _attendanceBox.add(attendance);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('Attendance saved successfully!')),
+                );
+              },
+              child: const Text('Save Attendance'),
+            ),
           ),
         ],
       ),

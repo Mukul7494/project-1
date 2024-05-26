@@ -3,6 +3,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:vidhyatri/src/features/attendance/attendance_model.dart';
 import 'package:vidhyatri/src/features/courses/model/course_model.dart';
 import 'package:vidhyatri/src/shared/boxes/hive_boxes.dart';
@@ -23,7 +24,9 @@ Future<void> main() async {
   );
   // Initialize the theme service.
   await themeService.init();
-  await Hive.initFlutter();
+  final appDocumentDir = await getApplicationDocumentsDirectory();
+  await Hive.initFlutter(appDocumentDir.path);
+  // await Hive.initFlutter();
 
   Hive.registerAdapter(StudentModelAdapter());
   Hive.registerAdapter(CourseModelAdapter());
@@ -33,6 +36,7 @@ Future<void> main() async {
   studentBox = await Hive.openBox<StudentModel>("Students");
   courseBox = await Hive.openBox<CourseModel>("Courses");
   await Hive.openBox<AttendanceModel>('attendance');
+  await Hive.openBox('pdfBox');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
